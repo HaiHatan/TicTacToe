@@ -152,7 +152,7 @@ def test_input(playerInput):
         return flag
 
 
-# the main function that run the game using the functions
+# the main function that run the game using the functions.
 def run_game():
     player = 0
     victor = -1
