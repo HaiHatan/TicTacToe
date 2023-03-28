@@ -91,8 +91,7 @@ def test_win():
                 victor = 1
                 return victor
     if "_" not in bord[1][1]:
-        if bord[1][1] == bord[0][0] == bord[2][2] or bord[1][1] == bord[0][2] == bord[2][0] or bord[1][1] == bord[1][
-            0] == bord[1][2]:
+        if bord[1][1] == bord[0][0] == bord[2][2] or bord[1][1] == bord[0][2] == bord[2][0] or bord[1][1] == bord[1][0] == bord[1][2]:
             if "X" in bord[1][1]:
                 victor = 0
                 return victor
@@ -135,9 +134,15 @@ def free_space():
     return False
 
 
+# function to rest the bord
+def reset_bord():
+    for i in range(3):
+        for j in range(3):
+            bord[i][j] = "_"
+
+
 # testing if the player input is valid
 def test_input(playerInput):
-    flag = True
     if len(playerInput) != 2:
         flag = False
         return flag
@@ -154,42 +159,65 @@ def test_input(playerInput):
 
 # the main function that run the game using the functions.
 def run_game():
-    player = 0
-    victor = -1
-    print("welcome to mt Tic Tac Toe game :), Player 1 is X, player 2 is O, Good luck and have fun:")
-    print_bord()
-    while True:
-        player = 0
-        location = player_input(player)
-        set_bord(player, location)
-        print_bord()
-        victor = test_win()
-        if victor >= -1:
-            if victor == 0:
-                print("Game Over: Player one is the winer!!!!")
-                break
-            elif victor == 1:
-                print("Game Over: Player two is the winer!!!!")
-                break
-        if not free_space:
-            print("Game Over: no more free spaces")
-            break
+    game = "Y"
+    while game == "Y":
+        on = True
 
-        player = 1
-        location = player_input(player)
-        set_bord(player, location)
+        print("welcome to mt Tic Tac Toe game :), Player 1 is X, player 2 is O, Good luck and have fun:")
         print_bord()
-        victor = test_win()
-        if victor >= -1:
-            if victor == 0:
-                print("Game Over: Player one is the winer!!!!")
-                break
-            elif victor == 1:
-                print("Game Over: Player two is the winer!!!!")
-                break
-        if not free_space:
-            print("Game Over: no more free spaces")
-            break
+        while on:
+            game = "N"
+            player = 0
+            location = player_input(player)
+            set_bord(player, location)
+            print_bord()
+            victor = test_win()
+            if victor >= -1:
+                if victor == 0:
+                    on = False
+                    game = input(
+                        "Game Over: Player one is the winner!!!!. To start again enter Y (uppercase), to finish game enter anything else:")
+                    if game == "Y":
+                        reset_bord()
+                elif victor == 1:
+                    on = False
+                    game = input(
+                        "Game Over: Player two is the winner!!!!. To start again enter Y, to finish game enter anything else:")
+                    if game == "Y":
+                        reset_bord()
+                        on = False
+            if not free_space:
+                on = False
+                game = input(
+                    "Game Over: no more free spaces. Its a tie. To start again enter Y, to finish game enter anything else:")
+                if game == "Y":
+                    reset_bord()
+            if on:
+                player = 1
+                location = player_input(player)
+                set_bord(player, location)
+                print_bord()
+                victor = test_win()
+                if victor >= -1:
+                    if victor == 0:
+                        on = False
+                        game = input(
+                            "Game Over: Player one is the winner!!!!. To start again enter Y (uppercase), to finish game enter anything else:")
+                        if game == "Y":
+                            reset_bord()
+                    elif victor == 1:
+                        on = False
+                        game = input(
+                            "Game Over: Player two is the winner!!!!. To start again enter Y, to finish game enter anything else:")
+                        if game == "Y":
+                            reset_bord()
+
+                if not free_space:
+                    game = input(
+                        "Game Over: no more free spaces. Its a tie. To start again enter Y, to finish game enter anything else:")
+                    if game == "Y":
+                        reset_bord()
+                        on = False
 
 
 run_game()
